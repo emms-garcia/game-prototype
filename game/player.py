@@ -1,24 +1,26 @@
 import pygame
 
-from colors import GREEN
-from common import OBJECT_SIZE, SmartSprite
-
-SIZE = (OBJECT_SIZE, OBJECT_SIZE)
+from common import Colors, Constants
+from sprites import SmartSprite
 
 
 class Player(SmartSprite):
+    """
+        Class that handles the player display data and movement
+    """
+
     def __init__(self, map):
         SmartSprite.__init__(self)
-        self.image = pygame.Surface(SIZE)
-        self.image.fill(GREEN)
+        self.image = pygame.Surface(
+            (Constants.OBJECT_SIZE, Constants.OBJECT_SIZE)
+        )
+        self.image.fill(Colors.GREEN)
         self.rect = self.image.get_rect()
         self.map = map
         self.move(1, 1)
 
-    def draw(self, screen):
-        screen.blit(self.image, self.rect)
-
     def move(self, dx, dy):
+        # Override the move method to check if the next movement is valid
         if self.map.is_valid_cell(self.x + dx, self.y + dy):
             super(Player, self).move(dx, dy)
 

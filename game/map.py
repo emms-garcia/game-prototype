@@ -2,21 +2,23 @@ import csv
 import os
 import pygame
 
-from colors import BLACK, BLUE, RED
-from common import ASSETS_DIR, SmartSprite, OBJECT_SIZE
-import events
+from common import Colors, Constants
+from events import CustomEvents, EventHandler
+from sprites import SmartSprite
 
-SIZE = (OBJECT_SIZE, OBJECT_SIZE)
-MAPS_DIR = os.path.join(ASSETS_DIR, 'maps')
+SIZE = (Constants.OBJECT_SIZE, Constants.OBJECT_SIZE)
+MAPS_DIR = os.path.join(Constants.ASSETS_DIR, 'maps')
 
 
 class BaseTile(SmartSprite):
-    COLOR = BLACK
+    COLOR = Colors.BLACK
     TYPE = None
 
     def __init__(self):
         SmartSprite.__init__(self)
-        self.image = pygame.Surface((OBJECT_SIZE, OBJECT_SIZE))
+        self.image = pygame.Surface(
+            (Constants.OBJECT_SIZE, Constants.OBJECT_SIZE)
+        )
         self.image.fill(self.COLOR)
         self.rect = self.image.get_rect()
 
@@ -26,7 +28,7 @@ class BaseTile(SmartSprite):
 
 class WallTile(BaseTile):
     CODE = '1'
-    COLOR = RED
+    COLOR = Colors.RED
     CAN_STEP = False
 
 
@@ -37,7 +39,7 @@ class EmptyTile(BaseTile):
 
 class WarpTile(BaseTile):
     CODE = '1'
-    COLOR = BLUE
+    COLOR = Colors.BLUE
     CAN_STEP = True
 
     def __init__(self, here, there):
@@ -46,11 +48,8 @@ class WarpTile(BaseTile):
         self.there = there
 
     def trigger(self):
-        pygame.event.post(
-            pygame.event.Event(
-                events.WARP_EVENT_ID,
-                tile=self,
-            )
+        EventHandler.post_event(
+            CustomEvents.WARP_EVENT_ID, here=self.here, there=self.there
         )
 
 

@@ -1,3 +1,4 @@
+
 """
     Game Engine Prototipe
     By Emmanuel Garcia
@@ -6,8 +7,8 @@ import pygame
 import pygame.locals
 import sys
 
-from colors import WHITE
-import events
+from common import Colors
+from events import CustomEvents
 from map import Map
 from player import Player
 
@@ -47,9 +48,9 @@ class Game(object):
                 self.player.move_down()
 
         # GAME EVENTS
-        elif event.type == events.WARP_EVENT_ID:
+        elif event.type == CustomEvents.WARP_EVENT_ID:
             self.map.empty()
-            self.map = Map(event.tile.there)
+            self.map = Map(event.there)
             self.player.map = self.map
 
     def game_loop(self):
@@ -62,7 +63,7 @@ class Game(object):
 
         bg = pygame.Surface(screen.get_size())
         bg.convert()
-        bg.fill(WHITE)
+        bg.fill(Colors.WHITE)
 
         clock = pygame.time.Clock()
         while True:
@@ -74,5 +75,9 @@ class Game(object):
             self.draw(screen)
             pygame.display.flip()
 
-if __name__ == '__main__':
+
+def main():
     Game().game_loop()
+
+if __name__ == '__main__':
+    main()
