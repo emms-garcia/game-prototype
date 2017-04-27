@@ -4,7 +4,6 @@
     By Emmanuel Garcia
 """
 import pygame
-import pygame.locals
 import sys
 
 from common import Colors
@@ -33,25 +32,15 @@ class Game(object):
         """
             Handle events
         """
-        if event.type == pygame.locals.QUIT:
+        if event.type == pygame.QUIT:
             sys.exit()
-
-        # KEYBOARD EVENTS
-        elif event.type == pygame.locals.KEYDOWN:
-            if event.key == pygame.locals.K_RIGHT:
-                self.player.move_right()
-            if event.key == pygame.locals.K_LEFT:
-                self.player.move_left()
-            if event.key == pygame.locals.K_UP:
-                self.player.move_up()
-            if event.key == pygame.locals.K_DOWN:
-                self.player.move_down()
 
         # GAME EVENTS
         elif event.type == CustomEvents.WARP_EVENT_ID:
             self.map.empty()
             self.map = Map(event.there)
             self.player.map = self.map
+            self.player.set_initial_position()
 
     def game_loop(self):
         """
@@ -71,13 +60,20 @@ class Game(object):
             for event in pygame.event.get():
                 self.event(event)
 
+            self.keyboard()
+
             screen.blit(bg, (0, 0))
             self.draw(screen)
             pygame.display.flip()
 
-
-def main():
-    Game().game_loop()
-
-if __name__ == '__main__':
-    main()
+    def keyboard(self):
+        # KEYBOARD EVENTS
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RIGHT]:
+            self.player.move_right()
+        if keys[pygame.K_LEFT]:
+            self.player.move_left()
+        if keys[pygame.K_UP]:
+            self.player.move_up()
+        if keys[pygame.K_DOWN]:
+            self.player.move_down()

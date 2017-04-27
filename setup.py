@@ -14,7 +14,7 @@ setup(
     description='Game prototype just for fun.',
     entry_points={
         'console_scripts': [
-            'game = game.game:main',
+            'game = game.__main__:main',
         ],
     },
     install_requires=REQUIREMENTS,

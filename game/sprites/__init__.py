@@ -17,10 +17,10 @@ class SmartSprite(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
-    def move(self, x, y):
-        self.rect.move_ip(x * Constants.OBJECT_SIZE, y * Constants.OBJECT_SIZE)
-        self.x += x
-        self.y += y
+    def move(self, dx, dy):
+        self.rect.move_ip(dx, dy)
+        self.x += dx
+        self.y += dy
 
     def set_position(self, x, y):
         self.x = x
